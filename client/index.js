@@ -16,7 +16,7 @@ let portfolioCount = 0;
 console.log(`cardCount: ${cardCount}`);
 console.log(`portfolioCount: ${portfolioCount}`);
 
-
+let globalId = 1;
 
 
 
@@ -139,15 +139,16 @@ async function submitQuery(e) {
         const financialData = json.quoteSummary.result[0].financialData;
 
         if (financialData) {
-          let card = `<center><td><div id="cardContainerList">
+          let card = `<center id="center-${globalId}"><td><div id="cardContainerList">
           
           <h2><center>${inputValue}</center></h2>
           <h3 id = 'cardPrice'><center>Price: $${financialData.currentPrice.fmt}</center></h3>
           <div id="cardButtonContainer">
-          <button class="cardButton" id="removeButton" card-id="${cardCount}"  > <strong>Sell </strong></button>
-          
+          <button class="cardButton" id="removeButton" card-id="${cardCount}"  onclick="sellFunc('${inputValue}', '${globalId}'), console.log('testing')"> <strong>Sell </strong></button>          
           </div>
         </div></td><center>`;
+
+        globalId++
 
           money -= financialData.currentPrice.fmt;
           roundedMoney = (Math.round(money * 100) / 100).toFixed(2);
@@ -194,98 +195,13 @@ async function submitQuery(e) {
           lastRow.appendChild(newCard);
           console.log(`Card count: ${cardCount}`);
           console.log(cardTable);
-
-        
-
-
-          for (let i = 0; i <= cardCount; i++) {
-            const removeButton = document.querySelector(
-              `#removeButton[card-id="${i}"]`
-            );
-            if (removeButton) {
-              removeButton.addEventListener("click", async function (e) {
-               
-                console.log(`removeButton HIT`);
-
-                let tagName =
-                  e.target.parentElement.parentElement.parentElement.querySelector(
-                    "center"
-                  ).textContent;
-
-                const response = await fetch(
-                  `http://localhost:4455/stock/${tagName}`
-                );
-                if (response.ok) {
-                  const json = await response.json();
-                  console.log("json arrived");
-
-                  if (json.quoteSummary && json.quoteSummary.result) {
-                    const financialData =
-                      json.quoteSummary.result[0].financialData;
-                    if (financialData) {
-                      console.log(
-                        e.target.parentElement.parentElement.parentElement
-                          .parentElement
-                      );
-
-                      
-                      e.target.parentElement.parentElement.parentElement.parentElement.remove();
-
-
-
-                      let newPrice = financialData.currentPrice.fmt;
-                      console.log(`old money: ${money}`);
-                      let newMoney = (money += +newPrice).toFixed(2);
-                      console.log(`new money: ${newMoney}`);
-                      
-                      
-                      
-                      if (newMoney < originalMoney) {
-                        wallet = `<h1>Cash </h1><h2 style="color:red;">$${newMoney}</h2>`;
-                        document.body.style.background = `linear-gradient( rgb(255, 0, 0), rgba(55, 0, 255, 0)), 
-                          linear-gradient( rgb(0, 255, 0), rgba(253, 1, 1, 0)), 
-                          linear-gradient( rgb(0, 85, 255), rgba(250, 29, 4, 0.151))`;
-                        document.body.style.backgroundAttachment = "fixed";
-                        document.body.style.backgroundSize = "100% 100%";
-                        document.body.style.display = "flex";
-                        document.body.style.flexWrap = "wrap";
-                        document.body.style.justifyContent = "center";
-                        document.body.style.alignItems = "center";
-                        document.body.style.height = "90vh";
-                        document.body.style.margin = 0;
-                        document.body.style.padding = 0;
-                      } else {
-                        wallet = `<h1>Cash </h1><h2 style="color: green;">$${newMoney}</h2>`;
-                        document.body.style.backgroundImage =
-                          'url("./yellow-blue-Presentation-Gradient-Background (1).webp")';
-                        document.body.style.backgroundAttachment = "fixed";
-                        document.body.style.backgroundSize = "100% 100%";
-                        document.body.style.display = "flex";
-                        document.body.style.flexWrap = "wrap";
-                        document.body.style.justifyContent = "center";
-                        document.body.style.alignItems = "center";
-                        document.body.style.height = "90vh";
-                        document.body.style.margin = 0;
-                        document.body.style.padding = 0;
-                      }
-                      document.getElementById("wallet").innerHTML = ``;
-                      document.getElementById("wallet").innerHTML += wallet;
-                      cardCount--;
-                      console.log(`Card count: ${cardCount}`);
-                    }
-                  }
-                }
-                
-              });
-            }
-          }
-
+          
           const clearButton = document.getElementById("clearAll");
           async function clearAll(e) {
             e.preventDefault();
             console.log("clearButton HIT");
             newCard.remove();
-            cardCount = 0;
+           cardCount--
             console.log(`Card count: ${cardCount}`);
           }
 
@@ -349,6 +265,69 @@ let newPortfolioCount = portfolioCount + 1;
 
 
 
+const sellFunc = async (searchParam, id) => {
+
+  console.log(searchParam);
+
+  const response = await fetch(
+    `http://localhost:4455/stock/${searchParam}`
+  );
+  if (response.ok) {
+    const json = await response.json();
+    console.log("json arrived");
+
+    if (json.quoteSummary && json.quoteSummary.result) {
+      const financialData =
+        json.quoteSummary.result[0].financialData;
+      if (financialData) {
+
+        let newPrice = financialData.currentPrice.fmt;
+        console.log(`old money: ${money}`);
+        let newMoney = (money += +newPrice).toFixed(2);
+        console.log(`new money: ${newMoney}`);
+        
+        if (newMoney < originalMoney) {
+                        wallet = `<h1>Cash </h1><h2 style="color:red;">$${newMoney}</h2>`;
+                        document.body.style.background = `linear-gradient( rgb(255, 0, 0), rgba(55, 0, 255, 0)), 
+                          linear-gradient( rgb(0, 255, 0), rgba(253, 1, 1, 0)), 
+                          linear-gradient( rgb(0, 85, 255), rgba(250, 29, 4, 0.151))`;
+                        document.body.style.backgroundAttachment = "fixed";
+                        document.body.style.backgroundSize = "100% 100%";
+                        document.body.style.display = "flex";
+                        document.body.style.flexWrap = "wrap";
+                        document.body.style.justifyContent = "center";
+                        document.body.style.alignItems = "center";
+                        document.body.style.height = "90vh";
+                        document.body.style.margin = 0;
+                        document.body.style.padding = 0;
+                      } else {
+                        wallet = `<h1>Cash </h1><h2 style="color: green;">$${newMoney}</h2>`;
+                        document.body.style.backgroundImage =
+                          'url("./yellow-blue-Presentation-Gradient-Background (1).webp")';
+                        document.body.style.backgroundAttachment = "fixed";
+                        document.body.style.backgroundSize = "100% 100%";
+                        document.body.style.display = "flex";
+                        document.body.style.flexWrap = "wrap";
+                        document.body.style.justifyContent = "center";
+                        document.body.style.alignItems = "center";
+                        document.body.style.height = "90vh";
+                        document.body.style.margin = 0;
+                        document.body.style.padding = 0;
+                      }
+
+        document.getElementById("wallet").innerHTML = ``;
+        document.getElementById("wallet").innerHTML += wallet;
+        cardCount--;
+        console.log(`Card count: ${cardCount}`);
+
+        let cardToRemove = document.querySelector(`#center-${id}`)
+        cardToRemove.remove()
+        
+      }
+    }
+  }
+
+};
 
 
 setInterval(updateTime, 5000);
@@ -358,6 +337,8 @@ updateNyTime();
 saveButton.addEventListener("click", savePortfolio);
 submitButton.addEventListener("click", submitQuery);
 console.log(cardTable);
+
+
 
 
 
