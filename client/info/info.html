@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./info.css" />
+    <title>Company Lookup</title>
+  </head>
+  <body>
+    <header>
+      <button
+        class="header-button"
+        onclick="window.location.href = '../index.html'"
+      >
+        Home
+      </button>
+      <button
+        class="header-button"
+        onclick="window.location.href = '../stocks/stocks.html'"
+      >
+        Stocks
+      </button>
+      <button
+        class="header-button"
+        onclick="window.location.href = '../portfolios/portfolios.html'"
+      >
+        Portfolios
+      </button>
+      <div class="header-dropdown-container">
+        <button class="header-button header-dropdown-button">Account</button>
+        <div class="header-dropdown-content">
+          <a href="#" class="header-button">Settings</a>
+          <a href="../login/login.html" class="header-button">Log off</a>
+        </div>
+      </div>
+    </header>
+
+    <div style="margin-left: 5%; margin-right: 5%">
+      <div class="search-section">
+        <form>
+          <input type="text" placeholder="Ticker: 'aapl' or 'goog'" />
+          <br />
+          <br />
+          <button class="button" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="container">
+        <div class="company-info">
+          <h3><center>Company Information</center></h3>
+          <div class="company-info-content" id="company-info-content"></div>
+        </div>
+        <div class="graph-section">
+          <div class="company-info-content" id="graph-content"></div>
+          <div>
+            <h3><center>Recommendation Trend</center></h3>
+          </div>
+
+          <div class="recommendation-section">
+            <div class="company-info-content" id="recommendation-content"></div>
+          </div>
+        </div>
+        <div class="table-section">
+          <h3><center>Financials</center></h3>
+          <table>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="./info.js"></script>
+  </body>
+</html>

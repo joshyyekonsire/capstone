@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>Home Page</title>
+  </head>
+
+
+
+
+  <body>
+
+
+
+    
+    <header>
+      
+      <div id="portfolios-button-container">
+        <button class="header-button" onclick="window.location.href = './stocks/stocks.html'">Stocks</button>
+        <button class="header-button" onclick="window.location.href = './portfolios/portfolios.html'">Portfolios</button>
+        <button class="header-button" onclick="window.location.href = './info/info.html'">Search Company</button>
+        <button class="header-button">Account</button>
+        </div>
+      </div>
+   
+      <div class="current-time">
+      
+        <div class="time-container">
+          <h2>MST</h2>
+          <div id="date-and-time"></div>
+        </div>
+        <div class="time-container">
+          <h2>EST</h2>
+          <div id="ny-date-and-time"></div>
+        </div>
+        <div id="open-closed">
+          <div id="open-closed-time-container"></div>
+          <h1>Market: <span id="ny-market-status"></span></h1>
+        </div>
+      </div>
+    </header>
+    
+
+    <div class="container">
+    <div id="wallet"></div>
+    <br>
+      
+      <div class="form-container">
+        <form>
+          <input
+            type="text"
+            id="textInput"
+            placeholder="Enter Ticker: 'AAPL'"
+          />
+          <button id="search-button" class="button">Search</button>
+          
+        </form>
+      </div>
+      <div id="response-container">
+        <div id="response"></div>
+      </div>
+    </div>
+
+
+
+<div id = "windowsContainer">
+    <div id="cardWindow">
+      <button class="button" onclick="window.location.href = './stocks/stocks.html'">Visit</button>
+      <button id="clearAll" class="button">Sell all</button>
+      <button id="saveAll" class="button">Create Portfolio</button>
+      <h1>
+        <center><strong>My Stocks</strong></center>
+      </h1>
+      <table id="cardTable">
+        <tr id = "cardTableRow"></tr>
+      </table>
+    </div>
+
+    <div id="portfolioWindow">
+
+      <button class="button" onclick="window.location.href = './portfolios/portfolios.html'">Visit</button>
+      <h1>
+        <center><strong>My Portfolios</strong></center>
+      </h1>
+      <table id="portfolioTable">
+        <tr id = "portfolioTableRow"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+  
+    <footer>Capstone Project - Devmountain - Daniel Brown</footer>
+
+
+
+
+
+
+    <script src="./index.js"></script>
+  </body>
+</html>
