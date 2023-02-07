@@ -17,6 +17,7 @@ console.log(`cardCount: ${cardCount}`);
 console.log(`portfolioCount: ${portfolioCount}`);
 
 let globalId = 1;
+console.log(`globalId: ${globalId}`)
 
 
 
@@ -48,7 +49,6 @@ function updateNyTime() {
   const openHours = 7;
   const closedHours = 14;
   const currentHour = date.getHours();
-  console.log(`current hour: ${currentHour}`)
   let marketStatus;
   if (
     day >= 1 && day <= 5 && currentHour >= openHours && currentHour < closedHours
@@ -133,7 +133,6 @@ async function submitQuery(e) {
     const response = await fetch(`http://localhost:4455/stock/${inputValue}`);
     if (response.ok) {
       const json = await response.json();
-      console.log(json);
 
       if (json.quoteSummary && json.quoteSummary.result) {
         const financialData = json.quoteSummary.result[0].financialData;
@@ -144,12 +143,15 @@ async function submitQuery(e) {
           <h2><center>${inputValue}</center></h2>
           <h3 id = 'cardPrice'><center>Price: $${financialData.currentPrice.fmt}</center></h3>
           <div id="cardButtonContainer">
-          <button class="cardButton" id="removeButton" card-id="${cardCount}"  onclick="sellFunc('${inputValue}', '${globalId}'), console.log('testing')"> <strong>Sell </strong></button>          
+          <button class="cardButton" id="removeButton" card-id="${cardCount}"  onclick="sellFunc('${inputValue}', '${globalId}')"> <strong>Sell </strong></button>          
           </div>
         </div></td><center>`;
 
         globalId++
+        console.log(`globalId: ${globalId}`)
 
+        let stockCurrentPrice = financialData.currentPrice.fmt
+        console.log(`Purchased ${inputValue} at  ${stockCurrentPrice}`)
           money -= financialData.currentPrice.fmt;
           roundedMoney = (Math.round(money * 100) / 100).toFixed(2);
           if (roundedMoney < 0) {
@@ -178,6 +180,9 @@ async function submitQuery(e) {
           }
 
           document.getElementById("wallet").innerHTML = wallet;
+
+         
+
           console.log(`Wallet: ${roundedMoney}`);
           const cardTable = document.getElementById("cardTable");
           const rows = cardTable.getElementsByTagName("tr");
@@ -194,8 +199,7 @@ async function submitQuery(e) {
           newCard.innerHTML = card;
           lastRow.appendChild(newCard);
           console.log(`Card count: ${cardCount}`);
-          console.log(cardTable);
-          
+
           const clearButton = document.getElementById("clearAll");
           async function clearAll(e) {
             e.preventDefault();
@@ -263,11 +267,9 @@ let newPortfolioCount = portfolioCount + 1;
   console.log(`Portfolio Count: ${portfolioCount}`);
 }
 
+async function sellFunc (searchParam, id) {
 
-
-const sellFunc = async (searchParam, id) => {
-
-  console.log(searchParam);
+ 
 
   const response = await fetch(
     `http://localhost:4455/stock/${searchParam}`
@@ -282,6 +284,7 @@ const sellFunc = async (searchParam, id) => {
       if (financialData) {
 
         let newPrice = financialData.currentPrice.fmt;
+        console.log(`Sold ${searchParam} at ${newPrice}`);
         console.log(`old money: ${money}`);
         let newMoney = (money += +newPrice).toFixed(2);
         console.log(`new money: ${newMoney}`);
@@ -322,11 +325,17 @@ const sellFunc = async (searchParam, id) => {
 
         let cardToRemove = document.querySelector(`#center-${id}`)
         cardToRemove.remove()
+if (cardCount === 0) {
+  console.log('gone')
+
+
+  let table = document.getElementById('cardTable')
+  table.innerHTML = '<tr id = "cardTableRow"></tr>';
+}
         
       }
     }
   }
-
 };
 
 
@@ -336,7 +345,7 @@ setInterval(updateNyTime, 5000);
 updateNyTime();
 saveButton.addEventListener("click", savePortfolio);
 submitButton.addEventListener("click", submitQuery);
-console.log(cardTable);
+
 
 
 
