@@ -6,6 +6,8 @@ const timeContainer = document.querySelector("#time-container");
 const dateAndTimeContainer = document.querySelector("#date-and-time");
 const nyTimeContainer = document.querySelector("#ny-time-container");
 const nyDateAndTimeContainer = document.querySelector("#ny-date-and-time");
+
+
 const originalMoney = 10000;
 let money = 10000;
 let roundedMoney = (Math.round(money * 100) / 100).toFixed(2);
@@ -16,7 +18,6 @@ let cardCount = 0;
 let portfolioCount = 0;
 console.log(`cardCount: ${cardCount}`);
 console.log(`portfolioCount: ${portfolioCount}`);
-
 let globalId = 1;
 console.log(`globalId: ${globalId}`);
 
@@ -198,6 +199,8 @@ async function submitQuery(e) {
           lastRow.appendChild(newCard);
           console.log(`Card count: ${cardCount}`);
 
+
+
           const clearButton = document.getElementById("clearAll");
           async function clearAll(e) {
             e.preventDefault();
@@ -325,34 +328,34 @@ async function sellFunc(searchParam, id) {
       }
     }
   }
-  console.log(cardTable);
-  console.log(portfolioCardTable);
 }
 
 async function saveProfile(e) {
   e.preventDefault();
   console.log("saveProfile HIT");
-
+  let username = 'username234234234';
+  let password = 'password2340234';
   let stocks = document.getElementById("cardTable").innerHTML;
   let portfolios = document.getElementById("portfolioTable").innerHTML;
   let wallet = document.getElementById("wallet").innerHTML;
 
   console.log("------------");
-  console.log("INSERT to TABLE users");
-  console.log("username");
-  console.log("password");
-  console.log(stocks);
-  console.log(portfolios);
-  console.log(wallet);
+  console.log("Sending data to the server");
+  console.log("username: ", username);
+  console.log("password: ", password);
+  console.log("stocks: ", stocks);
+  console.log("portfolios: ", portfolios);
+  console.log("wallet: ", wallet);
 
   try {
-    const response = await axios.put(`/user/${userId}`, {
+    const response = await axios.post("http://localhost:4455/save-profile/", {
       username,
       password,
       html_table_stocks: stocks,
       html_table_portfolios: portfolios,
       html_wallet: wallet
     });
+    console.log("Profile saved successfully");
     console.log(response.data);
   } catch (error) {
     console.error(error);
