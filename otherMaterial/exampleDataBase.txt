@@ -79,7 +79,6 @@ SELECT * FROM users WHERE username = 'JohnDoe@gmail.com';
 
 
 ------------------------------------------------------------------------------------
-
 front end: 
 
 document.getElementById("save-button").addEventListener("click", function() {
