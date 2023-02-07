@@ -17,7 +17,9 @@ console.log(`cardCount: ${cardCount}`);
 console.log(`portfolioCount: ${portfolioCount}`);
 
 let globalId = 1;
-console.log(`globalId: ${globalId}`)
+console.log(`globalId: ${globalId}`);
+
+
 
 
 
@@ -45,13 +47,15 @@ function updateNyTime() {
   const estTime = new Intl.DateTimeFormat("en-US", options).format(date);
   const day = date.getDay();
 
-
   const openHours = 7;
   const closedHours = 14;
   const currentHour = date.getHours();
   let marketStatus;
   if (
-    day >= 1 && day <= 5 && currentHour >= openHours && currentHour < closedHours
+    day >= 1 &&
+    day <= 5 &&
+    currentHour >= openHours &&
+    currentHour < closedHours
   ) {
     marketStatus =
       "<span style='background: lightgreen; color: #424242; padding: 5px 10px; border-radius: 5px;'>Open</span>";
@@ -128,6 +132,8 @@ async function submitQuery(e) {
     e.preventDefault();
     console.log("addButton HIT");
 
+   
+
     cardCount++;
     const inputValue = input.value;
     const response = await fetch(`http://localhost:4455/stock/${inputValue}`);
@@ -147,11 +153,11 @@ async function submitQuery(e) {
           </div>
         </div></td><center>`;
 
-        globalId++
-        console.log(`globalId: ${globalId}`)
+          globalId++;
+          console.log(`globalId: ${globalId}`);
 
-        let stockCurrentPrice = financialData.currentPrice.fmt
-        console.log(`Purchased ${inputValue} at  ${stockCurrentPrice}`)
+          let stockCurrentPrice = financialData.currentPrice.fmt;
+          console.log(`Purchased ${inputValue} at  ${stockCurrentPrice}`);
           money -= financialData.currentPrice.fmt;
           roundedMoney = (Math.round(money * 100) / 100).toFixed(2);
           if (roundedMoney < 0) {
@@ -181,8 +187,6 @@ async function submitQuery(e) {
 
           document.getElementById("wallet").innerHTML = wallet;
 
-         
-
           console.log(`Wallet: ${roundedMoney}`);
           const cardTable = document.getElementById("cardTable");
           const rows = cardTable.getElementsByTagName("tr");
@@ -205,7 +209,7 @@ async function submitQuery(e) {
             e.preventDefault();
             console.log("clearButton HIT");
             newCard.remove();
-           cardCount--
+            cardCount--;
             console.log(`Card count: ${cardCount}`);
           }
 
@@ -237,7 +241,7 @@ async function savePortfolio(e) {
   console.log("rename success");
   console.log(portfolioTitle);
   console.log(portfolio[portfolioTitle]);
-let newPortfolioCount = portfolioCount + 1;
+  let newPortfolioCount = portfolioCount + 1;
   let portfolioCard = `<center><td class = 'cardButtonContainer'><div id="cardContainerList">
   <h2><center>${newPortfolioCount}: ${portfolioTitle}</center></h2>
   <button class='cardButton' onclick="window.location.href='./portfolios/portfolios.html'">View</button>
@@ -267,76 +271,70 @@ let newPortfolioCount = portfolioCount + 1;
   console.log(`Portfolio Count: ${portfolioCount}`);
 }
 
-async function sellFunc (searchParam, id) {
-
- 
-
-  const response = await fetch(
-    `http://localhost:4455/stock/${searchParam}`
-  );
+async function sellFunc(searchParam, id) {
+  const response = await fetch(`http://localhost:4455/stock/${searchParam}`);
   if (response.ok) {
     const json = await response.json();
     console.log("json arrived");
 
     if (json.quoteSummary && json.quoteSummary.result) {
-      const financialData =
-        json.quoteSummary.result[0].financialData;
+      const financialData = json.quoteSummary.result[0].financialData;
       if (financialData) {
-
         let newPrice = financialData.currentPrice.fmt;
         console.log(`Sold ${searchParam} at ${newPrice}`);
         console.log(`old money: ${money}`);
         let newMoney = (money += +newPrice).toFixed(2);
         console.log(`new money: ${newMoney}`);
-        
+
         if (newMoney < originalMoney) {
-                        wallet = `<h1>Cash </h1><h2 style="color:red;">$${newMoney}</h2>`;
-                        document.body.style.background = `linear-gradient( rgb(255, 0, 0), rgba(55, 0, 255, 0)), 
-                          linear-gradient( rgb(0, 255, 0), rgba(253, 1, 1, 0)), 
-                          linear-gradient( rgb(0, 85, 255), rgba(250, 29, 4, 0.151))`;
-                        document.body.style.backgroundAttachment = "fixed";
-                        document.body.style.backgroundSize = "100% 100%";
-                        document.body.style.display = "flex";
-                        document.body.style.flexWrap = "wrap";
-                        document.body.style.justifyContent = "center";
-                        document.body.style.alignItems = "center";
-                        document.body.style.height = "90vh";
-                        document.body.style.margin = 0;
-                        document.body.style.padding = 0;
-                      } else {
-                        wallet = `<h1>Cash </h1><h2 style="color: green;">$${newMoney}</h2>`;
-                        document.body.style.backgroundImage =
-                          'url("./yellow-blue-Presentation-Gradient-Background (1).webp")';
-                        document.body.style.backgroundAttachment = "fixed";
-                        document.body.style.backgroundSize = "100% 100%";
-                        document.body.style.display = "flex";
-                        document.body.style.flexWrap = "wrap";
-                        document.body.style.justifyContent = "center";
-                        document.body.style.alignItems = "center";
-                        document.body.style.height = "90vh";
-                        document.body.style.margin = 0;
-                        document.body.style.padding = 0;
-                      }
+          wallet = `<h1>Cash </h1><h2 style="color:red;">$${newMoney}</h2>`;
+          document.body.style.background = 
+          `linear-gradient( rgb(255, 0, 0), rgba(55, 0, 255, 0)), 
+          linear-gradient( rgb(0, 255, 0), rgba(253, 1, 1, 0)), 
+          linear-gradient( rgb(0, 85, 255), rgba(250, 29, 4, 0.151))`;
+          document.body.style.backgroundAttachment = "fixed";
+          document.body.style.backgroundSize = "100% 100%";
+          document.body.style.display = "flex";
+          document.body.style.flexWrap = "wrap";
+          document.body.style.justifyContent = "center";
+          document.body.style.alignItems = "center";
+          document.body.style.height = "90vh";
+          document.body.style.margin = 0;
+          document.body.style.padding = 0;
+        } else {
+          wallet = `<h1>Cash </h1><h2 style="color: green;">$${newMoney}</h2>`;
+          document.body.style.backgroundImage =
+            'url("./yellow-blue-Presentation-Gradient-Background (1).webp")';
+          document.body.style.backgroundAttachment = "fixed";
+          document.body.style.backgroundSize = "100% 100%";
+          document.body.style.display = "flex";
+          document.body.style.flexWrap = "wrap";
+          document.body.style.justifyContent = "center";
+          document.body.style.alignItems = "center";
+          document.body.style.height = "90vh";
+          document.body.style.margin = 0;
+          document.body.style.padding = 0;
+        }
 
         document.getElementById("wallet").innerHTML = ``;
         document.getElementById("wallet").innerHTML += wallet;
         cardCount--;
         console.log(`Card count: ${cardCount}`);
 
-        let cardToRemove = document.querySelector(`#center-${id}`)
-        cardToRemove.remove()
-if (cardCount === 0) {
-  console.log('gone')
+        let cardToRemove = document.querySelector(`#center-${id}`);
+        cardToRemove.remove();
+        if (cardCount === 0) {
+          console.log("No more cards, table cleared, row added");
 
-
-  let table = document.getElementById('cardTable')
-  table.innerHTML = '<tr id = "cardTableRow"></tr>';
-}
-        
+          let table = document.getElementById("cardTable");
+          table.innerHTML = '<tr id = "cardTableRow"></tr>';
+        }
       }
     }
   }
-};
+}
+
+
 
 
 setInterval(updateTime, 5000);
@@ -345,23 +343,3 @@ setInterval(updateNyTime, 5000);
 updateNyTime();
 saveButton.addEventListener("click", savePortfolio);
 submitButton.addEventListener("click", submitQuery);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
