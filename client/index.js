@@ -1,6 +1,7 @@
 const input = document.getElementById("textInput");
 const submitButton = document.getElementById("search-button");
 const saveButton = document.getElementById("saveAll");
+const saveProfileButton = document.getElementById("save");
 const timeContainer = document.querySelector("#time-container");
 const dateAndTimeContainer = document.querySelector("#date-and-time");
 const nyTimeContainer = document.querySelector("#ny-time-container");
@@ -18,10 +19,6 @@ console.log(`portfolioCount: ${portfolioCount}`);
 
 let globalId = 1;
 console.log(`globalId: ${globalId}`);
-
-
-
-
 
 function updateTime() {
   const date = new Date();
@@ -116,7 +113,6 @@ async function submitQuery(e) {
   const infoButton = document.getElementById("moreInfo");
 
   async function refreshCard(e) {
-    e.preventDefault();
     console.log("refreshButton HIT");
 
     submitQuery(e);
@@ -131,8 +127,6 @@ async function submitQuery(e) {
   async function addCard(e) {
     e.preventDefault();
     console.log("addButton HIT");
-
-   
 
     cardCount++;
     const inputValue = input.value;
@@ -288,8 +282,7 @@ async function sellFunc(searchParam, id) {
 
         if (newMoney < originalMoney) {
           wallet = `<h1>Cash </h1><h2 style="color:red;">$${newMoney}</h2>`;
-          document.body.style.background = 
-          `linear-gradient( rgb(255, 0, 0), rgba(55, 0, 255, 0)), 
+          document.body.style.background = `linear-gradient( rgb(255, 0, 0), rgba(55, 0, 255, 0)), 
           linear-gradient( rgb(0, 255, 0), rgba(253, 1, 1, 0)), 
           linear-gradient( rgb(0, 85, 255), rgba(250, 29, 4, 0.151))`;
           document.body.style.backgroundAttachment = "fixed";
@@ -332,10 +325,26 @@ async function sellFunc(searchParam, id) {
       }
     }
   }
+  console.log(cardTable);
+  console.log(portfolioCardTable);
 }
 
+async function saveProfile(e) {
+  e.preventDefault();
+  console.log("saveProfile HIT");
 
+  let stocks = document.getElementById("cardTable").innerHTML;
+  let portfolios = document.getElementById("portfolioTable").innerHTML;
+  let wallet = document.getElementById("wallet").innerHTML;
 
+  console.log("------------");
+  console.log("INSERT to TABLE users");
+  console.log("username");
+  console.log("password");
+  console.log(stocks);
+  console.log(portfolios);
+  console.log(wallet);
+}
 
 setInterval(updateTime, 5000);
 updateTime();
@@ -343,3 +352,4 @@ setInterval(updateNyTime, 5000);
 updateNyTime();
 saveButton.addEventListener("click", savePortfolio);
 submitButton.addEventListener("click", submitQuery);
+saveProfileButton.addEventListener("click", saveProfile);

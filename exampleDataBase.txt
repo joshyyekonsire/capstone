@@ -1,0 +1,140 @@
+
+database:
+
+PUT
+
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  html_table_stocks,
+  html_table_portfolios,
+  html_wallet
+);
+
+------------------------------------------------------------------------------------
+SEED:
+
+<table id="cardTable">
+        <tbody><tr id="cardTableRow"></tr>
+      </tbody></table>
+
+
+<table id="portfolioTable">
+        <tbody><tr id="portfolioTableRow"></tr>
+      </tbody></table>
+
+<div id="wallet"><h1>Cash</h1><h2>$10000.00</h2></div>
+
+
+POST
+INSERT INTO users (username, password, html_table_stocks, html_table_portfolios, html_wallet)
+VALUES ('daniel@gmail.com', '@#HKJHE3*', '
+<div id="cardWindow">
+      <button id="clearAll" class="button">Sell all</button>
+      <button id="saveAll" class="button">Create Portfolio</button>
+      <h1>
+        <center><strong>My Stocks</strong></center>
+      </h1>
+      <table id="cardTable">
+        <tbody><tr id="cardTableRow"><td><center id="center-1"><div id="cardContainerList">
+          
+          <h2><center>goog</center></h2>
+          <h3 id="cardPrice"><center>Price: $103.47</center></h3>
+          <div id="cardButtonContainer">
+          <button class="cardButton" id="removeButton" card-id="1" onclick="sellFunc(''goog'', ''1'')"> <strong>Sell </strong></button>          
+          </div>
+        </div><center></center></center></td></tr>
+      </tbody></table>
+    </div>', 
+'
+<div id="cardWindow">
+ 
+      <button id="clearAll" class="button">Sell all</button>
+      <button id="saveAll" class="button">Create Portfolio</button>
+      <h1>
+        <center><strong>My Stocks</strong></center>
+      </h1>
+      <table id="cardTable">
+        <tbody><tr id="cardTableRow"><td><center id="center-1"><div id="cardContainerList">
+          
+          <h2><center>goog</center></h2>
+          <h3 id="cardPrice"><center>Price: $103.47</center></h3>
+          <div id="cardButtonContainer">
+          <button class="cardButton" id="removeButton" card-id="1" onclick="sellFunc(''goog'', ''1'')"> <strong>Sell </strong></button>          
+          </div>
+        </div><center></center></center></td></tr>
+      </tbody></table>
+    </div>', 
+'<div id="wallet"><h1>Cash</h1><h2>$10000.00</h2></div>'); (POSTGRES DOES NOT LIKE THE ONCLICK EVENTS AND THEIR '' inside of ""
+
+
+------------------------------------------------------------------------------------
+
+GET
+
+SELECT * FROM users;
+
+SELECT * FROM users WHERE username = 'JohnDoe@gmail.com';
+
+
+------------------------------------------------------------------------------------
+
+front end: 
+
+document.getElementById("save-button").addEventListener("click", function() {
+  let htmlTable1 = document.getElementById("table1").innerHTML;
+  let htmlTable2 = document.getElementById("table2").innerHTML;
+  let htmlWallet = document.getElementById("wallet").innerHTML;
+
+  let data = {
+    htmlTable1: htmlTable1,
+    htmlTable2: htmlTable2,
+    htmlWallet: htmlWallet
+  };
+
+
+
+  fetch("/save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => {
+      console.log("Data saved:", response);
+    })
+    .catch(error => {
+      console.error("Save error:", error);
+    });
+});
+
+----------------------------------------------------------------------------------------------
+
+BACKEND:
+
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+
+app.post("/save", (req, res) => {
+ let htmlTable1 = req.body.htmlTable1;
+  let htmlTable2 = req.body.htmlTable2;
+ let htmlWallet = req.body.htmlWallet;
+
+  res.json({
+    success: true,
+    message: "Data saved successfully"
+  });
+});
+
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
+
+
+
+
