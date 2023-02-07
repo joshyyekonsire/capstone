@@ -344,6 +344,16 @@ async function saveProfile(e) {
   console.log(stocks);
   console.log(portfolios);
   console.log(wallet);
+
+
+
+
+
+
+
+
+
+
 }
 
 setInterval(updateTime, 5000);
