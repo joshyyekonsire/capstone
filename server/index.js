@@ -13,6 +13,9 @@ const baseURL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/";
 
 
 
+
+
+
 app.get("/stock/:ticker", (req, res) => {
   axios
     .get(

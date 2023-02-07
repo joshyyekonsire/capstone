@@ -345,15 +345,18 @@ async function saveProfile(e) {
   console.log(portfolios);
   console.log(wallet);
 
-
-
-
-
-
-
-
-
-
+  try {
+    const response = await axios.put(`/user/${userId}`, {
+      username,
+      password,
+      html_table_stocks: stocks,
+      html_table_portfolios: portfolios,
+      html_wallet: wallet
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 setInterval(updateTime, 5000);
