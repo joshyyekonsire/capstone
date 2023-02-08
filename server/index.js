@@ -8,6 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+
+// API
+
 const baseURL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/";
 
 app.get("/stock/:ticker", (req, res) => {
@@ -24,6 +28,9 @@ app.get("/stock/:ticker", (req, res) => {
 
 
 
+
+
+// DATABASE
 
 const pool = new Pool({
   user: 'cosmicblaze123',
@@ -57,5 +64,10 @@ app.post("/save-profile/", async (req, res) => {
   
   res.status(200).send({ message: "Profile saved successfully" });
 });
+
+
+
+// PORT 4455
+
 
 app.listen(4455, () => console.log("Casting off from PORT: 4455"));
