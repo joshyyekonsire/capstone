@@ -21,6 +21,8 @@ console.log(`portfolioCount: ${portfolioCount}`);
 let globalId = 1;
 console.log(`globalId: ${globalId}`);
 
+
+
 function updateTime() {
   const date = new Date();
   const options = {
