@@ -10,7 +10,7 @@ app.use(cors());
 
 
 
-// API
+// API 
 
 const baseURL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/";
 
@@ -30,7 +30,7 @@ app.get("/stock/:ticker", (req, res) => {
 
 
 
-// DATABASE
+// DATABASE PORT 5432
 
 const pool = new Pool({
   user: 'cosmicblaze123',
