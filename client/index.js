@@ -19,8 +19,6 @@ let portfolioCount = 0;
 console.log(`cardCount: ${cardCount}`);
 console.log(`portfolioCount: ${portfolioCount}`);
 let globalId = 1;
-console.log(`globalId: ${globalId}`);
-
 
 
 function updateTime() {
@@ -149,7 +147,7 @@ document.getElementById("response").innerHTML = "Server error";
           let card = `<center id="center-${globalId}"><td><div id="cardContainerList">
           
           <h2><center>${inputValue}</center></h2>
-          <h3 id = 'cardPrice'><center>Price: $${financialData.currentPrice.fmt}</center></h3>
+          <h3 id = 'cardPrice'><center>Value: $${financialData.currentPrice.fmt}</center></h3>
           <div id="cardButtonContainer">
           <button class="cardButton" id="removeButton" card-id="${cardCount}"  onclick="sellFunc('${inputValue}', '${globalId}')"> <strong>Sell </strong></button>          
           </div>
