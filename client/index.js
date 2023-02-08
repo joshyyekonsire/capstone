@@ -338,11 +338,26 @@ async function sellFunc(searchParam, id) {
   }
 }
 
+
+
+
 async function saveProfile(e) {
+// Axios.get() in this saveProfile function can only happen if the API get requests have not already been executed
+// Fetch API has been removed as a dependency for thi app
+
+// PSUEDO CODE:
+
+// 1. Prevent the default behavior of the event (e.preventDefault())
+// 2. Declare variables for username, password, stocks, portfolios, and wallet, and set their values from the respective HTML elements
+// 3. Log the data that will be sent to the server (username, password, stocks, portfolios, wallet)
+// 4. Make an axios post request to the server with the API endpoint "http://localhost:4455/save-profile/" and pass in an object with the keys and values for username, password, html_table_stocks, html_table_portfolios, and html_wallet.
+// 5. If the request is successful, log "Profile saved successfully" and the response data.
+// 6. If there is an error, log the error.
+
   e.preventDefault();
   console.log("saveProfile HIT");
-  let username = '2Attempt 6564 no stringify';
-  let password = '2Pass 6 54654no stringify';
+  let username = 'AFTER FETCH gone';
+  let password = 'PASS AFTER FETCH gone';
   let stocks = document.getElementById("cardTable").innerHTML;
   let portfolios = document.getElementById("portfolioTable").innerHTML;
   let wallet = document.getElementById("wallet").innerHTML;
