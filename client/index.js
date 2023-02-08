@@ -71,14 +71,21 @@ async function submitQuery(e) {
   e.preventDefault();
   console.log("submitQuery HIT");
   const inputValue = input.value;
-  const response = await fetch(`http://localhost:4455/stock/${inputValue}`);
-  if (response.ok) {
-    const json = await response.json();
-    console.log(json);
+
+
+  try {
+    const { data } = await axios.get(
+    `http://localhost:4455/stock/${inputValue}`
+    );
+    console.log(data);
     let responseHTML = "";
-    if (json.quoteSummary && json.quoteSummary.result) {
-      const financialData = json.quoteSummary.result[0].financialData;
+    if (data.quoteSummary && data.quoteSummary.result) {
+      const financialData = data.quoteSummary.result[0].financialData;
       if (financialData) {
+
+
+
+
         responseHTML += `
         <img src="./png-yahoo-logo-download-4.webp" id="yahoo-image">
         <br>
@@ -97,18 +104,17 @@ async function submitQuery(e) {
        </div>
         </div>`;
       } else {
-        responseHTML += `<p>Financial data not available for this stock</p>`;
-      }
-    } else {
-      responseHTML += `<p>Financial data not available for this stock</p>`;
-    }
-    document.getElementById("response").innerHTML = responseHTML;
-  } else if (response.status === 404) {
-    document.getElementById("response").innerHTML = "Ticker not found";
-  } else {
-    document.getElementById("response").innerHTML = "Server error";
-  }
-
+        responseHTML += `<p>Financial data not available for this stock</p>;`
+}
+document.getElementById("response").innerHTML = responseHTML;
+}
+} catch (error) {
+if (error.response.status === 404) {
+document.getElementById("response").innerHTML = "Ticker not found";
+} else {
+document.getElementById("response").innerHTML = "Server error";
+}
+}
   const addButton = document.getElementById("addButton");
   const refreshButton = document.getElementById("refresh");
   const infoButton = document.getElementById("moreInfo");
@@ -128,15 +134,14 @@ async function submitQuery(e) {
   async function addCard(e) {
     e.preventDefault();
     console.log("addButton HIT");
-
+    
     cardCount++;
     const inputValue = input.value;
-    const response = await fetch(`http://localhost:4455/stock/${inputValue}`);
-    if (response.ok) {
-      const json = await response.json();
-
-      if (json.quoteSummary && json.quoteSummary.result) {
-        const financialData = json.quoteSummary.result[0].financialData;
+    const res = await axios.get(`http://localhost:4455/stock/${inputValue}`);
+    const json = res.data;
+    
+    if (json.quoteSummary && json.quoteSummary.result) {
+    const financialData = json.quoteSummary.result[0].financialData;
 
         if (financialData) {
           let card = `<center id="center-${globalId}"><td><div id="cardContainerList">
@@ -212,7 +217,7 @@ async function submitQuery(e) {
 
           clearButton.addEventListener("click", clearAll);
         }
-      }
+      
     }
   }
   infoButton.addEventListener("click", moreInfoCard);
@@ -269,9 +274,9 @@ async function savePortfolio(e) {
 }
 
 async function sellFunc(searchParam, id) {
-  const response = await fetch(`http://localhost:4455/stock/${searchParam}`);
-  if (response.ok) {
-    const json = await response.json();
+  try {
+    const response = await axios.get(`http://localhost:4455/stock/${searchParam}`);
+    const json = response.data;
     console.log("json arrived");
 
     if (json.quoteSummary && json.quoteSummary.result) {
@@ -312,6 +317,7 @@ async function sellFunc(searchParam, id) {
           document.body.style.padding = 0;
         }
 
+     
         document.getElementById("wallet").innerHTML = ``;
         document.getElementById("wallet").innerHTML += wallet;
         cardCount--;
@@ -327,14 +333,16 @@ async function sellFunc(searchParam, id) {
         }
       }
     }
+  } catch (error) {
+    console.error(error);
   }
 }
 
 async function saveProfile(e) {
   e.preventDefault();
   console.log("saveProfile HIT");
-  let username = 'username234234234';
-  let password = 'password2340234';
+  let username = '2Attempt 6564 no stringify';
+  let password = '2Pass 6 54654no stringify';
   let stocks = document.getElementById("cardTable").innerHTML;
   let portfolios = document.getElementById("portfolioTable").innerHTML;
   let wallet = document.getElementById("wallet").innerHTML;
@@ -349,8 +357,8 @@ async function saveProfile(e) {
 
   try {
     const response = await axios.post("http://localhost:4455/save-profile/", {
-      username,
-      password,
+      username: username,
+      password: password,
       html_table_stocks: stocks,
       html_table_portfolios: portfolios,
       html_wallet: wallet
@@ -358,7 +366,7 @@ async function saveProfile(e) {
     console.log("Profile saved successfully");
     console.log(response.data);
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 

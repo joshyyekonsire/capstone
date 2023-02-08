@@ -9,10 +9,12 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
   console.log("formSubmit HIT");
   const inputValue = input.value;
-  const response = await fetch(`http://localhost:4455/stock/${inputValue}`);
-  const data = await response.json();
+  
+  try {
+  const { data } = await axios.get(`http://localhost:4455/stock/${inputValue}`);
 
   const financialData = data.quoteSummary.result[0].financialData;
+
 
   const tableFirstRow = `<table>
   <tr>
@@ -85,4 +87,8 @@ form.addEventListener("submit", async (event) => {
   recTrend.innerHTML = `<br>
   ${recHTML}
 `;
+} 
+catch (error) {
+  console.error(error);
+}
 });

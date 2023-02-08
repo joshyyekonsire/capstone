@@ -10,6 +10,21 @@ app.use(cors());
 
 const baseURL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/";
 
+app.get("/stock/:ticker", (req, res) => {
+  axios
+    .get(
+      `${baseURL}${req.params.ticker}?modules=financialData,assetProfile,recommendationTrend`
+    )
+    .then((response) => res.send(response.data))
+    .catch((error) => {
+      console.error(error);
+      res.status(404).send({ message: "Ticker not found" });
+    });
+});
+
+
+
+
 const pool = new Pool({
   user: 'cosmicblaze123',
   host: 'db.bit.io',
@@ -19,10 +34,12 @@ const pool = new Pool({
   ssl: true,
 });
 pool.query('SELECT username FROM users', (err, res) => {
+  console.log("res.rows: ")
   console.table(res.rows); 
 });
 
 app.post("/save-profile/", async (req, res) => {
+
   const { username, password, html_table_stocks, html_table_portfolios, html_wallet } = req.body;
 
   try {
@@ -33,19 +50,12 @@ app.post("/save-profile/", async (req, res) => {
     );
     await pool.end();
   } catch (err) {
+    console.log(err)
     return res.status(500).send({ message: "Error in saving profile" });
+    
   }
   
   res.status(200).send({ message: "Profile saved successfully" });
-});
-
-app.get("/stock/:ticker", (req, res) => {
-  axios
-    .get(
-      `${baseURL}${req.params.ticker}?modules=financialData,assetProfile,recommendationTrend`
-    )
-    .then((response) => res.send(response.data))
-    .catch((error) => res.status(404).send({ message: "Ticker not found" }));
 });
 
 app.listen(4455, () => console.log("Casting off from PORT: 4455"));
