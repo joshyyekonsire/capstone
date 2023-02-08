@@ -385,6 +385,30 @@ async function saveProfile(e) {
   }
 }
 
+
+
+
+// let modal = document.getElementById("myModal");
+// let btn = document.getElementById("myBtn");
+// let closeBtn = document.querySelector(".close-btn");
+
+// btn.onclick = function() {
+//   modal.style.display = "block";
+// };
+
+// closeBtn.onclick = function() {
+//   modal.style.display = "none";
+// };
+
+// window.onclick = function(event) {
+//   if (event.target == modal) {
+//     modal.style.display = "none";
+//   }
+// };
+
+
+
+
 setInterval(updateTime, 5000);
 updateTime();
 setInterval(updateNyTime, 5000);
